@@ -5,6 +5,6 @@
 
 # Replace the following placeholders with your information.
 
-# NAME
-# EMAIL
-# STUDENT ID
+# Kellan Yamamoto
+# kellany@uci.edu
+# 28388886
