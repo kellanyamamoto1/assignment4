@@ -10,6 +10,7 @@
 # 28388886
 
 from OpenWeather import OpenWeather
+from LastFM import LastFM
 
 zipcode = "92697"
 ccode = "US"
