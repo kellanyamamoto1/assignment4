@@ -9,7 +9,6 @@
 # kellany@uci.edu
 # 28388886
 
-
 from OpenWeather import OpenWeather
 
 zipcode = "92697"
