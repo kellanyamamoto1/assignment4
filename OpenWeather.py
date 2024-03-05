@@ -40,18 +40,31 @@ class OpenWeather:
         if self.api_key is None:
             raise ValueError("API key is not set. Please use set_apikey method to set the API key.")
         
-        url = f"https://api.openweathermap.org/data/2.5/weather?zip={self.zipcode},{self.ccode}&appid={self.api_key}"
-        response = urllib.request.urlopen(url)
-        data = json.loads(response.read())
-        self.weather_description = data['weather'][0]['description']
-        self.temperature = data['main']['temp']
-        self.high_temperature = data['main']['temp_max']
-        self.low_temperature = data['main']['temp_min']
-        self.longitude = data['coord']['lon']
-        self.latitude = data['coord']['lat']
-        self.humidity = data['main']['humidity']
-        self.city = data['name']
-        self.sunset = datetime.datetime.fromtimestamp(data['sys']['sunset'])
+        try:
+            url = f"https://api.openweathermap.org/data/2.5/weather?zip={self.zipcode},{self.ccode}&appid={self.api_key}"
+            response = urllib.request.urlopen(url)
+            data = json.loads(response.read())
+            self.description = data['weather'][0]['description']
+            self.temperature = data['main']['temp']
+            self.high_temperature = data['main']['temp_max']
+            self.low_temperature = data['main']['temp_min']
+            self.longitude = data['coord']['lon']
+            self.latitude = data['coord']['lat']
+            self.humidity = data['main']['humidity']
+            self.city = data['name']
+            self.sunset = datetime.datetime.fromtimestamp(data['sys']['sunset'])
+        except urllib.error.URLError as e:
+            raise Exception(f"Lost local connection to the Internet: {e}")
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                raise Exception("API service is unavailable: HTTP 404 - Not Found")
+            elif e.code == 503:
+                raise Exception("API service is unavailable: HTTP 503 - Service Unavailable")
+            else:
+                raise Exception(f"HTTP Error: {e.code} - {e.reason}")
+        except json.JSONDecodeError as e:
+            raise Exception("Invalid data formatting from the remote API")
+
 
     def set_apikey(self, apikey:str) -> None:
         '''    
@@ -76,7 +89,7 @@ def main() -> None:
     print(f"The high for today in {zipcode} will be {open_weather.high_temperature} degrees")
     print(f"The low for today in {zipcode} will be {open_weather.low_temperature} degrees")
     print(f"The coordinates for {zipcode} are {open_weather.longitude} longitude and {open_weather.latitude} latitude")
-    #print(f"The current weather for {zipcode} is {open_weather.description}")
+    print(f"The current weather for {zipcode} is {open_weather.description}")
     print(f"The current humidity for {zipcode} is {open_weather.humidity}")
     print(f"The sun will set in {open_weather.city} at {open_weather.sunset}")
 
