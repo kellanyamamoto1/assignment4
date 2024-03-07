@@ -23,6 +23,7 @@ def main():
     open_weather = OpenWeather(zipcode, ccode)
     open_weather.set_apikey(apikey)
     open_weather.load_data()
+    open_weather.transclude(message)
 
     print(f"The temperature for {zipcode} is {open_weather.temperature} degrees")
     print(f"The high for today in {zipcode} will be {open_weather.high_temperature} degrees")
@@ -38,6 +39,7 @@ def main():
     lastfm = LastFM()
     lastfm.setFMapi(FMapikey)
     lastfm.set_artist_album(artist, album)
+    lastfm.transclude(message)
     data = lastfm.loadFMdata()
 
     print(json.dumps(data, indent=4))
