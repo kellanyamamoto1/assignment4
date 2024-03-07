@@ -50,6 +50,14 @@ class LastFM:
                 raise Exception(f"HTTP Error: {e.code} - {e.reason}")
         except json.JSONDecodeError as e:
             raise Exception("Invalid data formatting from the remote API")
+        
+    def transclude(self, message:str) -> str:
+        words = message.split()
+        for i, word in enumerate(words):
+            if '@lastfm' in word:
+                self.load_data()
+                words[i] = word.replace('@lastfm', self.description)
+        return ' '.join(words)
 
 
 

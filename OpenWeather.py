@@ -73,7 +73,14 @@ class OpenWeather:
     
         '''
         self.api_key = apikey
-        
+    
+    def transclude(self, message:str) -> str:
+        words = message.split()
+        for i, word in enumerate(words):
+            if '@weather' in word:
+                self.load_data()
+                words[i] = word.replace('@weather', self.description)
+        return ' '.join(words)
 
 def main() -> None:
 
