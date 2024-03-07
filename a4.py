@@ -10,6 +10,7 @@
 # 28388886
 
 from OpenWeather import OpenWeather
+import json
 from LastFM import LastFM
 
 zipcode = "92697"
@@ -27,3 +28,13 @@ print(f"The coordinates for {zipcode} are {open_weather.longitude} longitude and
 print(f"The current weather for {zipcode} is {open_weather.description}")
 print(f"The current humidity for {zipcode} is {open_weather.humidity}")
 print(f"The sun will set in {open_weather.city} at {open_weather.sunset}")
+
+FMapikey = "7cd2ee13dc3b0100dae94c5c7401df50"
+artist = 'Cher'
+album = 'Believe'
+lastfm = LastFM()
+lastfm.setFMapi(FMapikey)
+lastfm.set_artist_album(artist, album)
+data = lastfm.loadFMdata()
+
+print(json.dumps(data, indent=4))
