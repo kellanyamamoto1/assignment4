@@ -12,9 +12,31 @@
 from OpenWeather import OpenWeather
 import json
 from LastFM import LastFM
+from Profile import Profile, Post
 
 def main():
+
+    #PROFILE DOESNT WORK // DONT KNOW HOW TO CONNECT TO SERVER
+    profile = Profile()
     message = input("Write sentance using Keywords: @lastfm, @weather: ")
+    post = Post(message)
+    profile.add_post(post)
+    try:
+        profile.load_profile('profile.dsu')
+    except Exception as ex:
+        print(f"Error loading profile: {ex}")
+        return
+
+    posts = profile.get_posts()
+    if len(posts) == 0:
+        print("No posts found in the profile")
+        return
+
+    latest_post = posts[-1]
+    print(f"Latest post timestamp: {latest_post.timestamp}")
+    print(f"Latest post message: {latest_post.entry}")
+
+
 
     zipcode = "92697"
     ccode = "US"

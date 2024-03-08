@@ -93,7 +93,5 @@ def main() -> None:
     open_weather.load_data()
 
 
-    
-
 if __name__ == '__main__':
     main()
