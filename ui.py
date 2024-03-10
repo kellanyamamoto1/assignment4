@@ -1,5 +1,5 @@
 from pathlib import Path
-import user as use
+import user as user_mod
 from Profile import Profile, Post
 from ds_client import send
 import administration as admin
@@ -42,7 +42,7 @@ def comm():
         admin.start()
     else:
         if command_type == "L":
-            list_files(command)
+            list_files_command(command)
         elif command_type == "Q":
             quit()
         elif command_type == "C":
@@ -53,7 +53,7 @@ def comm():
         elif command_type == "R":
             read_file(command)
         elif command_type == "H":
-            use.comm_list()
+            user_mod.comm_list()
             comm()
         elif command_type == "O":
             open_file(command)
@@ -101,15 +101,33 @@ def list_files(a):
                 print("please enter a valid path")
                 comm()
             else:
-                use.path_help()
+                user_mod.path_help()
     else:
-        path = use.get_path()
-        recursive = use.recursive()
-        files_only = use.files()
-        ending = use.ending()
-        search_file = use.search()
+        path = user_mod.get_path()
+        recursive = user_mod.recursive()
+        files_only = user_mod.files()
+        ending = user_mod.ending()
+        search_file = user_mod.search()
         print("OUTPUT:\n")
         list_items(path, recursive, files_only, search_file, ending)
+
+def list_files_command(command):
+    command_parts = command.split()
+    paths = command_parts[1:]
+    path = paths[0]
+    recursive = "-r" in paths
+    files_only = "-f" in paths
+    search_file = None
+    if "-s" in paths:
+        s_index = paths.index("-s")
+        if s_index + 1 < len(paths):
+            search_file = paths[s_index + 1]
+    ending = None
+    if "-e" in paths:
+        e_index = paths.index("-e")
+        if e_index + 1 < len(paths):
+            ending = paths[e_index + 1]
+    list_items(path, recursive, files_only, search_file, ending)
 
 
 def list_items(path, recursive=False, files_only=False, search_file=None, ending=None):
@@ -170,8 +188,8 @@ def create_file(a):
         return temp_path
                 
     else:
-        file_path = use.get_path()
-        file_name = use.file_name()
+        file_path = user_mod.get_path()
+        file_name = user_mod.file_name()
         line = file_path + "\\" + file_name
         username = input("Enter Username:  ")
         password = input("Enter Password:  ")
@@ -213,7 +231,7 @@ def del_file(a):
         else:
             print("can only delete dsu files")
     else:
-        path = use.get_path()
+        path = user_mod.get_path()
         if path[-3:] == 'dsu':
             if check_file(path):
                 Path(path).unlink()
@@ -243,7 +261,7 @@ def read_file(a):
                 print("no such file exists")
         print("")
     else:
-        path = use.get_path()
+        path = user_mod.get_path()
         if path[-3:] == 'dsu':
             if check_file(path):
                 with open(path, 'r') as p:
@@ -270,9 +288,9 @@ def open_file(a):
         print(temp_path + " has been opened")
         return temp_path
     else:
-        path = use.get_path()
+        path = user_mod.get_path()
         print("Without the file extention,")
-        name = use.file_name()
+        name = user_mod.file_name()
         temp_path = path + "\\" + name
         f = open(temp_path, 'r+')
         print(temp_path + ' Has been opened')

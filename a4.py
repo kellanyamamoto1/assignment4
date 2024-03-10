@@ -23,7 +23,6 @@ def test_api(message:str, apikey:str, webapi:WebAPI):
 
 def main():
 
-    #PROFILE DOESNT WORK // DONT KNOW HOW TO CONNECT TO SERVER
     profile = Profile()
     message = input("Write sentance using Keywords: @lastfm, @weather: ")
     post = Post(message)
