@@ -2,13 +2,18 @@ from pathlib import Path
 import user as use
 from Profile import Profile, Post
 from ds_client import send
+import administration as admin
+import ui as ui
+import a4 as a4
 
 server_adress = "168.235.86.101"
 server_port = "3021"
 administrator = False
 temp_path = ''
 
-
+def start():
+    ui.administration(1)
+    ui.comm
 
 
 def user():
