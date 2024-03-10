@@ -55,8 +55,8 @@ class LastFM:
         words = message.split()
         for i, word in enumerate(words):
             if '@lastfm' in word:
-                self.load_data()
-                words[i] = word.replace('@lastfm', self.description)
+                self.loadFMdata()
+                words[i] = word.replace('@lastfm', "info")
         return ' '.join(words)
 
 

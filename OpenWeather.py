@@ -82,6 +82,7 @@ class OpenWeather:
                 words[i] = word.replace('@weather', self.description)
         return ' '.join(words)
 
+
 def main() -> None:
 
     zipcode = "92697"
@@ -92,6 +93,8 @@ def main() -> None:
     open_weather.set_apikey(apikey)
     open_weather.load_data()
 
+
+    
 
 if __name__ == '__main__':
     main()

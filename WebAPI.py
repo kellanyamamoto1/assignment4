@@ -13,6 +13,10 @@ from abc import ABC, abstractmethod
 
 class WebAPI(ABC):
 
+  def __init__(self):
+        self.apikey = None
+        self.data = None
+
   def _download_url(self, url: str) -> dict:
     headers = {
       'User': 'Your User String'
@@ -25,7 +29,7 @@ class WebAPI(ABC):
       return None
 
   def set_apikey(self, apikey:str) -> None:
-    pass
+    self.apikey = apikey
 
   @abstractmethod
   def load_data(self):
@@ -52,5 +56,10 @@ class WebAPI(ABC):
         raise Exception("Invalid data formatting from the remote API")
 
   @abstractmethod
-  def transclude(self, message:str) -> str:
-    pass
+  def transclude(self, message: str) -> str:
+        words = message.split()
+        for i, word in enumerate(words):
+            if '@lastfm' in word:
+                self.load_data()
+                words[i] = word.replace('@lastfm', "info")
+        return ' '.join(words)
