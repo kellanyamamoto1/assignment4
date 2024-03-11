@@ -56,8 +56,8 @@ class LastFM:
         for i, word in enumerate(words):
             if '@lastfm' in word:
                 self.loadFMdata()
-                self.playtime = ['album']['playcount']
-                words[i] = word.replace('@lastfm', f"{self.artist} made {self.album}")
+                
+                words[i] = word.replace('@lastfm', f"{self.album} by {self.artist}")
         return ' '.join(words)
 
 
