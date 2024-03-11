@@ -56,7 +56,8 @@ class LastFM:
         for i, word in enumerate(words):
             if '@lastfm' in word:
                 self.loadFMdata()
-                words[i] = word.replace('@lastfm', "info")
+                self.playtime = ['album']['playcount']
+                words[i] = word.replace('@lastfm', f"{self.artist} made {self.album}")
         return ' '.join(words)
 
 
@@ -69,7 +70,8 @@ def main():
     lastfm.setFMapi(FMapikey)
     lastfm.set_artist_album(artist, album)
     data = lastfm.loadFMdata()
-    print(json.dumps(data, indent=4))
+
+    
 
 if __name__ == "__main__":
     main()

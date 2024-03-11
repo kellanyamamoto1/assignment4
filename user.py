@@ -1,5 +1,5 @@
 from pathlib import Path
-import admin as admin
+import administration as admin
 import ui as ui
 
 
@@ -34,6 +34,14 @@ def get_path():
     path = input()
     return path
 
+def files():
+    print("would you like to only display files? Y/N")
+    temp = input()
+    if temp == "Y":
+        file = True
+    else:
+        file = False
+    return file
 
 def recursive():
     print("would you like to search recursively? Y/N")
@@ -44,17 +52,6 @@ def recursive():
         recursive = False
     return recursive
 
-
-def files():
-    print("would you like to only display files? Y/N")
-    temp = input()
-    if temp == "Y":
-        file = True
-    else:
-        file = False
-    return file
-
-
 def ending():
     print("would you like to search for a specific file type? Y/N")
     temp = input()
@@ -63,7 +60,13 @@ def ending():
         return ending
     else:
         return None
-    
+
+def file_name():
+    print("got here")
+    name = input("Please enter a file name:  ")
+    name = name + ".dsu"
+    return name
+
 def search():
     print("Would you like to search for a specific file? Y/N")
     temp = input()
@@ -72,10 +75,3 @@ def search():
         return name
     else:
         return None
-
-
-def file_name():
-    print("got here")
-    name = input("Please enter a file name:  ")
-    name = name + ".dsu"
-    return name

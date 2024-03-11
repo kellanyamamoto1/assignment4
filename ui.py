@@ -5,6 +5,8 @@ from ds_client import send
 import administration as admin
 import ui as ui
 import a4 as a4
+import OpenWeather as WEA
+import LastFM as LFM
 
 server_adress = "168.235.86.101"
 server_port = "3021"
@@ -13,16 +15,19 @@ temp_path = ''
 
 def start():
     ui.administration(1)
-    ui.comm
+    ui.comm()
 
 
 def user():
+    global administrator
     user_type = input("Please input user type (\"admin\", \"user\"):  ")
     temp = 0
     if user_type == 'admin':
         temp = 1
+        administrator = True
     else:
         temp = 0
+        administrator = False
     return temp
 
 
@@ -40,6 +45,10 @@ def comm():
     command_type = command[0:1]
     if command == 'admin':
         admin.start()
+    elif command == 'user':
+        administrator == 0
+        user()
+        comm()
     else:
         if command_type == "L":
             list_files_command(command)
@@ -62,6 +71,7 @@ def comm():
             edit_file(command)
         elif command_type == "P":
             print_data(command)
+        
 
 
 def file_sort(a, b):
@@ -184,9 +194,8 @@ def create_file(a):
                 profile.save_profile(path = filepath)
                 print(f'{filepath} OPENED')
                 temp_path = filepath
-        print(f"this is the way  {temp_path}")
-        return temp_path
-                
+        print(f"TEMP PATH:  {temp_path}")
+        return temp_path        
     else:
         file_path = user_mod.get_path()
         file_name = user_mod.file_name()
@@ -320,6 +329,12 @@ def edit_file(a):
             new_usr = ' '.join(lis[usr_index + 1:]).strip('"')
             profile.username = new_usr
             profile.save_profile(temp_path)
+        if '-addpost' in lis:
+            post_index = lis.index('-addpost')
+            post_content = ' '.join(lis[post_index + 1:])
+            new_post = Post(post_content)
+            profile.add_post(new_post)
+            profile.save_profile(temp_path)
         if '-pwd' in lis:
             pwd_index = lis.index('-pwd')
             new_pwd= lis[pwd_index + 1]
@@ -327,12 +342,6 @@ def edit_file(a):
             profile.save_profile(temp_path)
         if '-bio' in lis:
             profile.bio = bio.strip('"')
-            profile.save_profile(temp_path)
-        if '-addpost' in lis:
-            post_index = lis.index('-addpost')
-            post_content = ' '.join(lis[post_index + 1:])
-            new_post = Post(post_content)
-            profile.add_post(new_post)
             profile.save_profile(temp_path)
     else:
         profile = Profile()
@@ -359,6 +368,25 @@ def edit_file(a):
             profile.save_profile(temp_path)
         elif "-addpost" in user_in:
             post_content = input("Enter new post: ")
+            if "@W" in post_content or "@w" in post_content:
+                zipc = input("Enter Zipcode: ")
+                cc = input("Enter Country Code: ")
+                Fire = WEA.OpenWeather(zipc, cc)
+                Fire.set_apikey("ceb8cbc931c2f41301ba4a1548020fd4")
+                Fire.load_data()
+                post_content = Fire.transclude(post_content)   
+            if "@L" in post_content or "@l" in post_content:
+                alb = input("Enter Album Song Album: ")
+                art = input("Enter Artist: ")
+                Water = LFM.LastFM()
+                Water.set_artist_album(art, alb)
+                Water.setFMapi("7cd2ee13dc3b0100dae94c5c7401df50")
+                Water.loadFMdata()
+                print(Water.loadFMdata())
+                post_content = Water.transclude(post_content)
+                
+
+
             new_post = Post(post_content)
             profile.add_post(new_post)
             profile.save_profile(temp_path)
@@ -408,5 +436,5 @@ def print_data(command):
     comm()
 
 if __name__ == "__main__":
-    user()
+    start()   
 

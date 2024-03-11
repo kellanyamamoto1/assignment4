@@ -14,6 +14,7 @@
 
 import urllib, json, datetime
 from urllib import request,error
+from ui import *
 
 class OpenWeather:
 
