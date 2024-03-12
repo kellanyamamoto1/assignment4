@@ -15,7 +15,7 @@ temp_path = ''
 
 def start():
     ui.administration(1)
-    ui.comm()
+    ui.command()
 
 
 def user():
@@ -40,7 +40,7 @@ def administration(a):
     return administrator
 
 
-def comm():
+def command():
     command = input("please enter command:  ")
     command_type = command[0:1]
     if command == 'admin':
@@ -48,7 +48,7 @@ def comm():
     elif command == 'user':
         administrator == 0
         user()
-        comm()
+        command()
     else:
         if command_type == "L":
             list_files_command(command)
@@ -56,17 +56,17 @@ def comm():
             quit()
         elif command_type == "C":
             create_file(command)
-            comm()
+            command()
         elif command_type == "D":
             del_file(command)
         elif command_type == "R":
             read_file(command)
         elif command_type == "H":
             user_mod.comm_list()
-            comm()
+            command()
         elif command_type == "O":
             open_file(command)
-            comm()
+            command()
         elif command_type == 'E':
             edit_file(command)
         elif command_type == "P":
@@ -109,7 +109,7 @@ def list_files(a):
         else:
             if administrator:
                 print("please enter a valid path")
-                comm()
+                command()
             else:
                 user_mod.path_help()
     else:
@@ -169,7 +169,7 @@ def list_items(path, recursive=False, files_only=False, search_file=None, ending
                 print(directory)
     except FileNotFoundError:
         print(f"the path {path} doesnt exist")
-    comm()
+    command()
 
 
 def create_file(a):
@@ -246,11 +246,11 @@ def del_file(a):
                 Path(path).unlink()
                 print(f"{path} DELETED")
             elif not check_file(path):
-                print("no such file exists")
+                print("no file exists")
         else:
             print("can only delete dsu files")
 
-    comm()
+    command()
 
 
 def read_file(a):
@@ -281,11 +281,11 @@ def read_file(a):
                     else:
                         print("EMPTY")
             elif not check_file(path):
-                print("no such file exists") 
+                print("no file exists") 
         else:
             print("please enter a file with \".dsu\" extention")
     print("")
-    comm()
+    command()
 
 
 def open_file(a):
@@ -294,7 +294,7 @@ def open_file(a):
         path = a.split(' ')
         temp_path = path[1]
         f = open(temp_path, 'a')
-        print(temp_path + " has been opened")
+        print(temp_path + " opened")
         return temp_path
     else:
         path = user_mod.get_path()
@@ -302,11 +302,11 @@ def open_file(a):
         name = user_mod.file_name()
         temp_path = path + "\\" + name
         f = open(temp_path, 'r+')
-        print(temp_path + ' Has been opened')
+        print(temp_path + ' opened')
         for line in f:
-            print("hehehehe")
+            print(" ")
             print(line.strip())
-    comm()
+    command()
     return temp_path
         
 
@@ -324,8 +324,8 @@ def edit_file(a):
         profile = Profile()
         profile.load_profile(path = temp_path)
         
-        if '-usr' in lis:
-            usr_index = lis.index('-usr')
+        if '-user' in lis:
+            usr_index = lis.index('-user')
             new_usr = ' '.join(lis[usr_index + 1:]).strip('"')
             profile.username = new_usr
             profile.save_profile(temp_path)
@@ -349,12 +349,12 @@ def edit_file(a):
         temp_path = input()
         profile.load_profile(path = temp_path)
         print("what would you like to edit?")
-        print("\"-usr\" to update the username")
+        print("\"-user\" to update the username")
         print("\"-pwd\" to update password")
         print("\"-bio\" to update bio")
         print("\"-addpost\" to add a post")
         user_in = str(input())
-        if "-usr" in user_in:
+        if "-user" in user_in:
             new = str(input("enter new username: "))
             profile.username = new
             profile.save_profile(temp_path)
@@ -385,8 +385,6 @@ def edit_file(a):
                 #print(Water.loadFMdata())
                 post_content = Water.transclude(post_content)
                 
-
-
             new_post = Post(post_content)
             profile.add_post(new_post)
             profile.save_profile(temp_path)
@@ -399,7 +397,7 @@ def edit_file(a):
                 message = post_content
                 send(serv, port, username, password, message)
 
-    comm()
+    command()
 
 
 def print_data(command):
@@ -433,7 +431,7 @@ def print_data(command):
         print("Posts:")
         for i, post in enumerate(profile._posts):
             print(f"  Post {i}: {post}")
-    comm()
+    command()
 
 if __name__ == "__main__":
     start()   

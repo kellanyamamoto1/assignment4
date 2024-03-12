@@ -19,14 +19,14 @@ def comm_list():
 
 def start():
     ui.administration(0)
-    ui.comm()
+    ui.command()
     
 
 def path_help():
     print("Please enter a valid path in the form:")
     print("[COMMAND] [PATH] [[-]OPTION] [INPUT]")
     print("If you need to view all commands, enter \"Help\"")
-    ui.comm()
+    ui.command()
 
 
 def get_path():
